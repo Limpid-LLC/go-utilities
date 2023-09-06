@@ -1,4 +1,4 @@
-package go_utilities
+package main
 
 type SliceUtility struct{}
 

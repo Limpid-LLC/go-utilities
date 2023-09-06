@@ -1,6 +1,12 @@
 package utilities
 
+var Slice *SliceUtility
+
 type SliceUtility struct{}
+
+func InitSlice() {
+	Slice = &SliceUtility{}
+}
 
 func (util *SliceUtility) AddStringToSlice(elemToAdd string, slice []string) []string {
 	return append(slice, elemToAdd)

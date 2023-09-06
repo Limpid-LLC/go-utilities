@@ -9,7 +9,13 @@ import (
 	"time"
 )
 
+var FileCache *FileCacheUtility
+
 type FileCacheUtility struct{}
+
+func InitFileCache() {
+	FileCache = &FileCacheUtility{}
+}
 
 // DoJsonRequest Method for execute http Request to another service
 func (helper *FileCacheUtility) DoJsonRequest(Method string, URL string, RequestData []byte) []byte {

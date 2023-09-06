@@ -2,7 +2,13 @@ package utilities
 
 import "go.mongodb.org/mongo-driver/bson"
 
+var Converter *ConverterUtility
+
 type ConverterUtility struct{}
+
+func InitConverter() {
+	Converter = &ConverterUtility{}
+}
 
 func (util *ConverterUtility) ConvertToBsonM(inputData interface{}) (bson.M, error) {
 	// Convert the map to a byte slice using bson.Marshal

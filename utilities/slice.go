@@ -1,18 +1,18 @@
 package utilities
 
-var Slice *SliceUtility
+var Slice *sliceUtility
 
-type SliceUtility struct{}
+type sliceUtility struct{}
 
 func InitSlice() {
-	Slice = &SliceUtility{}
+	Slice = &sliceUtility{}
 }
 
-func (util *SliceUtility) AddStringToSlice(elemToAdd string, slice []string) []string {
+func (util *sliceUtility) AddStringToSlice(elemToAdd string, slice []string) []string {
 	return append(slice, elemToAdd)
 }
 
-func (util *SliceUtility) RemoveStringFromSlice(elemToRemove string, slice []string) []string {
+func (util *sliceUtility) RemoveStringFromSlice(elemToRemove string, slice []string) []string {
 	var result []string
 	for _, elemSlice := range slice {
 		if elemSlice != elemToRemove {

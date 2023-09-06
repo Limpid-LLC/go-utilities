@@ -2,15 +2,15 @@ package utilities
 
 import "go.mongodb.org/mongo-driver/bson"
 
-var Converter *ConverterUtility
+var Converter *converterUtility
 
-type ConverterUtility struct{}
+type converterUtility struct{}
 
 func InitConverter() {
-	Converter = &ConverterUtility{}
+	Converter = &converterUtility{}
 }
 
-func (util *ConverterUtility) ConvertToBsonM(inputData interface{}) (bson.M, error) {
+func (util *converterUtility) ConvertToBsonM(inputData interface{}) (bson.M, error) {
 	// Convert the map to a byte slice using bson.Marshal
 	data, err := bson.Marshal(inputData)
 	if err != nil {
@@ -27,7 +27,7 @@ func (util *ConverterUtility) ConvertToBsonM(inputData interface{}) (bson.M, err
 	return result, nil
 }
 
-func (util *ConverterUtility) ConvertToBsonMSlice(inputData interface{}) ([]bson.M, error) {
+func (util *converterUtility) ConvertToBsonMSlice(inputData interface{}) ([]bson.M, error) {
 	inputSlice := inputData.(bson.A)
 
 	result := make([]bson.M, len(inputSlice))
@@ -44,7 +44,7 @@ func (util *ConverterUtility) ConvertToBsonMSlice(inputData interface{}) ([]bson
 	return result, nil
 }
 
-func (util *ConverterUtility) ConvertBSONAToSliceOfStrings(inputData interface{}) []string {
+func (util *converterUtility) ConvertBSONAToSliceOfStrings(inputData interface{}) []string {
 	if inputData == nil {
 		return []string{}
 	}
@@ -60,7 +60,7 @@ func (util *ConverterUtility) ConvertBSONAToSliceOfStrings(inputData interface{}
 	return result
 }
 
-func (util *ConverterUtility) ConvertSliceInterfaceToSliceOfStrings(inputData interface{}) []string {
+func (util *converterUtility) ConvertSliceInterfaceToSliceOfStrings(inputData interface{}) []string {
 	if inputData == nil {
 		return []string{}
 	}

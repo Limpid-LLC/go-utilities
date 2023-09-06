@@ -1,14 +1,14 @@
 package utilities
 
-var Checker *CheckerUtility
+var Checker *checkerUtility
 
-type CheckerUtility struct{}
+type checkerUtility struct{}
 
 func InitChecker() {
-	Checker = &CheckerUtility{}
+	Checker = &checkerUtility{}
 }
 
-func (util *CheckerUtility) IsStringExistsInSlice(target string, slice []string) bool {
+func (util *checkerUtility) IsStringExistsInSlice(target string, slice []string) bool {
 	for _, s := range slice {
 		if s == target {
 			return true

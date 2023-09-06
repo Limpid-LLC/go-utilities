@@ -1,14 +1,14 @@
 package utilities
 
-var Paginator *PaginatorUtility
+var Paginator *paginatorUtility
 
-type PaginatorUtility struct{}
+type paginatorUtility struct{}
 
 func InitPaginator() {
-	Paginator = &PaginatorUtility{}
+	Paginator = &paginatorUtility{}
 }
 
-func (util *PaginatorUtility) Paginate(data []map[string]interface{}, skipPassed interface{}, limitPassed interface{}) []map[string]interface{} {
+func (util *paginatorUtility) Paginate(data []map[string]interface{}, skipPassed interface{}, limitPassed interface{}) []map[string]interface{} {
 	if skipPassed != nil || limitPassed != nil {
 		limit := 20
 		from := 0

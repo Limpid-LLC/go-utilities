@@ -9,16 +9,16 @@ import (
 	"time"
 )
 
-var FileCache *FileCacheUtility
+var FileCache *fileCacheUtility
 
-type FileCacheUtility struct{}
+type fileCacheUtility struct{}
 
 func InitFileCache() {
-	FileCache = &FileCacheUtility{}
+	FileCache = &fileCacheUtility{}
 }
 
 // DoJsonRequest Method for execute http Request to another service
-func (helper *FileCacheUtility) DoJsonRequest(Method string, URL string, RequestData []byte) []byte {
+func (helper *fileCacheUtility) DoJsonRequest(Method string, URL string, RequestData []byte) []byte {
 	req, err := http.NewRequest(Method, URL, bytes.NewBuffer(RequestData))
 	req.Header.Set("Content-Type", "application/json")
 
@@ -40,7 +40,7 @@ func (helper *FileCacheUtility) DoJsonRequest(Method string, URL string, Request
 	return body
 }
 
-func (helper *FileCacheUtility) FileExists(filename string) bool {
+func (helper *fileCacheUtility) FileExists(filename string) bool {
 	info, err := os.Stat(filename)
 	if os.IsNotExist(err) {
 		return false
@@ -48,12 +48,12 @@ func (helper *FileCacheUtility) FileExists(filename string) bool {
 	return !info.IsDir()
 }
 
-func (helper *FileCacheUtility) IsFileOlderThanOneDay(t time.Time) bool {
+func (helper *fileCacheUtility) IsFileOlderThanOneDay(t time.Time) bool {
 	return time.Now().Sub(t) > time.Hour
 }
 
 // CacheData Caching response to file for faster future executions
-func (helper *FileCacheUtility) CacheData(filename string, actualData []byte) {
+func (helper *fileCacheUtility) CacheData(filename string, actualData []byte) {
 	if helper.FileExists(filename) {
 		err := os.Remove(filename)
 		if err != nil {

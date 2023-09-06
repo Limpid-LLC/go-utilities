@@ -1,4 +1,4 @@
-package main
+package utilities
 
 type SliceUtility struct{}
 

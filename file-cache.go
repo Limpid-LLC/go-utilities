@@ -1,4 +1,4 @@
-package main
+package go_utilities
 
 import (
 	"bytes"
@@ -8,8 +8,6 @@ import (
 	"os"
 	"time"
 )
-
-var FileCache *FileCacheUtility
 
 type FileCacheUtility struct{}
 

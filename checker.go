@@ -1,6 +1,4 @@
-package main
-
-var Checker *CheckerUtility
+package go_utilities
 
 type CheckerUtility struct{}
 

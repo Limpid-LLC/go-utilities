@@ -1,8 +1,6 @@
-package main
+package go_utilities
 
 import "sort"
-
-var Sorter *SorterUtility
 
 type SorterUtility struct{}
 

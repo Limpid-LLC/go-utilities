@@ -1,6 +1,4 @@
-package main
-
-var Slice *SliceUtility
+package go_utilities
 
 type SliceUtility struct{}
 

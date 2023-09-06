@@ -1,6 +1,4 @@
-package main
-
-var Paginator *PaginatorUtility
+package go_utilities
 
 type PaginatorUtility struct{}
 

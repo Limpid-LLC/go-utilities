@@ -1,8 +1,6 @@
-package main
+package go_utilities
 
 import "go.mongodb.org/mongo-driver/bson"
-
-var Converter *ConverterUtility
 
 type ConverterUtility struct{}
 

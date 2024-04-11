@@ -25,7 +25,8 @@ func InitLogger(logMode string) {
 		loggerInit.Debug("Logger started", zap.String("mode", "debug"))
 	} else {
 		config := zap.NewProductionConfig()
-		config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+		config.EncoderConfig = zap.NewDevelopmentEncoderConfig()
+		config.Encoding = "console"
 		option := zap.AddStacktrace(zap.DPanicLevel)
 		loggerInit, err = config.Build(option)
 		if err != nil {

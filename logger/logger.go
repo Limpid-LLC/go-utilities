@@ -13,10 +13,10 @@ func InitLogger(logMode string) {
 		loggerInit *zap.Logger
 		err        error
 	)
-	config := zap.NewDevelopmentConfig()
-	config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 
 	if logMode == "debug" {
+		config := zap.NewDevelopmentConfig()
+		config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 		option := zap.AddStacktrace(zap.DPanicLevel)
 		loggerInit, err = config.Build(option)
 		if err != nil {
@@ -24,6 +24,8 @@ func InitLogger(logMode string) {
 		}
 		loggerInit.Debug("Logger started", zap.String("mode", "debug"))
 	} else {
+		config := zap.NewProductionConfig()
+		config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
 		option := zap.AddStacktrace(zap.DPanicLevel)
 		loggerInit, err = config.Build(option)
 		if err != nil {

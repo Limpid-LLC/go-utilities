@@ -3,16 +3,16 @@ package request_limits_middlewares
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/Limpid-LLC/saiService"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
 func CreateServiceStationRequestLimitMiddleware(requestLimitServiceURL string, microserviceName string, method string) func(next saiService.HandlerFunc, data interface{}, metadata interface{}) (interface{}, int, error) {
 	return func(next saiService.HandlerFunc, data interface{}, metadata interface{}) (interface{}, int, error) {
 		if requestLimitServiceURL == "" {
-			log.Println("serviceStationRequestLimitMiddleware: requestLimit service url is empty")
+			fmt.Println("serviceStationRequestLimitMiddleware: requestLimit service url is empty")
 			return unauthorizedResponse("requestLimitServiceURL")
 		}
 
@@ -48,51 +48,61 @@ func CreateServiceStationRequestLimitMiddleware(requestLimitServiceURL string, m
 
 		jsonData, err := json.Marshal(checkReq)
 		if err != nil {
-			log.Println("serviceStationRequestLimitMiddleware: error marshaling data")
-			log.Println("serviceStationRequestLimitMiddleware: " + err.Error())
+			fmt.Println("serviceStationRequestLimitMiddleware: error marshaling data")
+			fmt.Println("serviceStationRequestLimitMiddleware: " + err.Error())
 			return unauthorizedResponse("marshaling -> " + err.Error())
 		}
 
+		fmt.Println("serviceStationRequestLimitMiddleware checkRequest: " + string(jsonData))
+
 		req, err := http.NewRequest("POST", requestLimitServiceURL, bytes.NewBuffer(jsonData))
 		if err != nil {
-			log.Println("serviceStationRequestLimitMiddleware: error creating request")
-			log.Println("serviceStationRequestLimitMiddleware: " + err.Error())
+			fmt.Println("serviceStationRequestLimitMiddleware: error creating request")
+			fmt.Println("serviceStationRequestLimitMiddleware: " + err.Error())
 			return unauthorizedResponse("creating request -> " + err.Error())
 		}
 
 		client := &http.Client{}
 		resp, err := client.Do(req)
 		if err != nil {
-			log.Println("serviceStationRequestLimitMiddleware: error sending request to auth")
-			log.Println("serviceStationRequestLimitMiddleware: " + err.Error())
+			fmt.Println("serviceStationRequestLimitMiddleware: error sending request to auth")
+			fmt.Println("serviceStationRequestLimitMiddleware: " + err.Error())
 			return unauthorizedResponse("sending request -> " + err.Error())
 		}
 		defer resp.Body.Close()
 
 		body, err := ioutil.ReadAll(resp.Body)
 
+		fmt.Println("serviceStationRequestLimitMiddleware Response Status: " + resp.Status)
+		fmt.Println("serviceStationRequestLimitMiddleware Response Body: " + string(body))
+
 		if err != nil {
-			log.Println("serviceStationRequestLimitMiddleware: error reading body from auth")
-			log.Println("serviceStationRequestLimitMiddleware: " + err.Error())
+			fmt.Println("serviceStationRequestLimitMiddleware: error reading body from auth")
+			fmt.Println("serviceStationRequestLimitMiddleware: " + err.Error())
 			return unauthorizedResponse("reading body -> " + err.Error())
 		}
 
 		var response CheckResponse
 		err = json.Unmarshal(body, &response)
 		if err != nil {
-			log.Println("serviceStationRequestLimitMiddleware: error unmarshalling body from auth")
-			log.Println("serviceStationRequestLimitMiddleware: " + err.Error())
+			fmt.Println("serviceStationRequestLimitMiddleware: error unmarshalling body from auth")
+			fmt.Println("serviceStationRequestLimitMiddleware: " + err.Error())
 			return unauthorizedResponse("Unmarshal -> " + err.Error())
 		}
 
-		if response.Status != ResponseStatusOK {
-			log.Println("serviceStationRequestLimitMiddleware: response-body -> result is not `Ok`")
-			log.Println("serviceStationRequestLimitMiddleware: " + string(body))
-			return unauthorizedResponse("Result -> " + string(body))
-		} else if !response.Result.IsRequestAvailable {
-			return unauthorizedResponse(" request limit exceeded")
-		}
+		fmt.Println("serviceStationRequestLimitMiddleware checkResponse Body Status: " + response.Status)
 
-		return next(data, metadata)
+		if response.Status != ResponseStatusOK {
+			fmt.Println("serviceStationRequestLimitMiddleware: response-body -> result is not `Ok`")
+			fmt.Println("serviceStationRequestLimitMiddleware: " + string(body))
+			return unauthorizedResponse("Result -> " + string(body))
+		} else {
+			fmt.Println("serviceStationRequestLimitMiddleware checkResponse result check: " + fmt.Sprintf("%v", response.Result.IsRequestAvailable))
+			if response.Result.IsRequestAvailable {
+				return next(data, metadata)
+			} else {
+				return unauthorizedResponse("request limit exceeded")
+			}
+		}
 	}
 }

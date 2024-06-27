@@ -13,10 +13,10 @@ type MiddlewareCheckRequest struct {
 }
 
 type MiddlewareCheckRequestData struct {
-	Microservice     string `json:"microservice"`
-	Method           string `json:"method"`
-	ServiceStationID string `json:"service_station_id,omitempty"`
-	StoreUserID      string `json:"user_id,omitempty"`
+	RequestMicroservice string `json:"request_microservice"`
+	RequestMethod       string `json:"request_method"`
+	ServiceStationID    string `json:"service_station_id,omitempty"`
+	StoreUserID         string `json:"user_id,omitempty"`
 }
 
 type CheckResponse struct {

@@ -25,9 +25,9 @@ func CreateStoreRequestLimitMiddleware(requestLimitServiceURL string, microservi
 		checkReq := MiddlewareCheckRequest{
 			Method: "check",
 			Data: MiddlewareCheckRequestData{
-				Microservice: microserviceName,
-				Method:       method,
-				StoreUserID:  dataMap["user_id"].(string),
+				RequestMicroservice: microserviceName,
+				RequestMethod:       method,
+				StoreUserID:         dataMap["user_id"].(string),
 			},
 		}
 

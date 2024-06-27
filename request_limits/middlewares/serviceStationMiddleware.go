@@ -40,9 +40,9 @@ func CreateServiceStationRequestLimitMiddleware(requestLimitServiceURL string, m
 		checkReq := MiddlewareCheckRequest{
 			Method: "check",
 			Data: MiddlewareCheckRequestData{
-				Microservice:     microserviceName,
-				Method:           method,
-				ServiceStationID: serviceStationID,
+				RequestMicroservice: microserviceName,
+				RequestMethod:       method,
+				ServiceStationID:    serviceStationID,
 			},
 		}
 

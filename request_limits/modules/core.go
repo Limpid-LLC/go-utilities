@@ -11,10 +11,10 @@ type MicroserviceRequest struct {
 }
 
 type DecrementRequestLimitRequestData struct {
-	ServiceStationID    string `json:"service_station_id,omitempty"`
-	StoreUserID         string `json:"user_id,omitempty"`
 	RequestMicroservice string `json:"request_microservice"`
 	RequestMethod       string `json:"request_method"`
+	ServiceStationID    string `json:"service_station_id,omitempty"`
+	StoreUserID         string `json:"user_id,omitempty"`
 }
 
 type MicroserviceResponse struct {

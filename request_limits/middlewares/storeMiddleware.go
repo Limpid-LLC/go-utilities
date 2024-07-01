@@ -22,12 +22,24 @@ func CreateStoreRequestLimitMiddleware(requestLimitServiceURL string, microservi
 
 		_ = json.Unmarshal(dataBytes, &dataMap)
 
+		var userID string
+		if dataMap["user_id"] != nil {
+			userID = dataMap["user_id"].(string)
+		} else {
+			userID = ""
+		}
+
+		if len(userID) == 0 {
+			fmt.Println("storeRequestLimitMiddleware: empty user_id -> go next")
+			return next(data, metadata)
+		}
+
 		checkReq := MiddlewareCheckRequest{
 			Method: "check",
 			Data: MiddlewareCheckRequestData{
 				RequestMicroservice: microserviceName,
 				RequestMethod:       method,
-				StoreUserID:         dataMap["user_id"].(string),
+				StoreUserID:         userID,
 			},
 		}
 

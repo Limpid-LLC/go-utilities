@@ -34,7 +34,8 @@ func CreateServiceStationRequestLimitMiddleware(requestLimitServiceURL string, m
 		}
 
 		if len(serviceStationID) == 0 {
-			return unauthorizedResponse("empty service_station_id")
+			fmt.Println("serviceStationRequestLimitMiddleware: empty service_station_id -> go next")
+			return next(data, metadata)
 		}
 
 		checkReq := MiddlewareCheckRequest{

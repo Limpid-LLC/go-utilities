@@ -2,6 +2,7 @@ package request_limits_modules
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -48,7 +49,7 @@ func (module *DecrementRequestLimitModuleObj) Decrement(
 		return err
 	}
 
-	decrementReq := MicroserviceRequest{
+	decrementReq := MicroserviceDecrementRequest{
 		Method: "decrement_request_limit",
 		Metadata: bson.M{
 			"token": module.MasterToken,
@@ -75,7 +76,13 @@ func (module *DecrementRequestLimitModuleObj) Decrement(
 		return err
 	}
 
-	client := &http.Client{}
+	client := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		},
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("DecrementRequestLimitModule: error sending request to request limit service")
